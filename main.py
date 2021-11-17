@@ -24,10 +24,9 @@ def cli_read_from(file_name: str):
 
         container_name = os.getenv('AZURE_STORAGE_CONTAINER')
         local_path = os.path.abspath(os.path.curdir)
-        local_file_name = file_name
 
-        full_path_to_file2 = os.path.join(f'{local_path}/data', local_file_name)
-        block_blob_service.get_blob_to_path(container_name, local_file_name, full_path_to_file2)
+        full_path_to_file2 = os.path.join(f'{local_path}/data', file_name)
+        block_blob_service.get_blob_to_path(container_name, file_name, full_path_to_file2)
 
     except Exception as ex:
         print(ex)
