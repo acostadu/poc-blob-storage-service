@@ -36,7 +36,7 @@ def cli_read_from(file_name: str):
 @app.command("write")
 def cli_write_to(file_path: Optional[Path] = typer.Option(None)):
     """
-    To write to Azure Blob storage any file path passed by parameter
+    To write to an Azure Blob storage any file path passed by parameter
     """
     pass
 
