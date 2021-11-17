@@ -1,12 +1,21 @@
 import os
+from pathlib import Path
+from typing import Optional
 
+import typer
 from azure.storage.blob import BlockBlobService
 from dotenv import load_dotenv
 
-load_dotenv(os.getenv('CURRENT_ENV_DIR'))
+load_dotenv(os.getenv('CURRENT_ENV_DIR'), '.env')
+
+app = typer.Typer()
 
 
-def run_sample():
+@app.command("read")
+def cli_read_from(file_name: str):
+    """
+    To read from Azure Blob Storage any file name passed by parameter.
+    """
     try:
         block_blob_service = BlockBlobService(
             account_name=os.getenv('AZURE_STORAGE_ACOUNT'),
@@ -15,14 +24,22 @@ def run_sample():
 
         container_name = os.getenv('AZURE_STORAGE_CONTAINER')
         local_path = os.path.abspath(os.path.curdir)
-        local_file_name = 'CDN_26062021_RE_761349465.dat'
+        local_file_name = file_name
 
         full_path_to_file2 = os.path.join(f'{local_path}/data', local_file_name)
         block_blob_service.get_blob_to_path(container_name, local_file_name, full_path_to_file2)
 
-    except Exception as e:
-        print(e)
+    except Exception as ex:
+        print(ex)
 
 
-if __name__ == '__main__':
-    run_sample()
+@app.command("write")
+def cli_write_to(file_path: Optional[Path] = typer.Option(None)):
+    """
+    To write to Azure Blob storage any file path passed by parameter
+    """
+    pass
+
+
+if __name__ == "__main__":
+    app()
